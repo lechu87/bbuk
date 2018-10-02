@@ -1,0 +1,812 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.OSError'> [Errno 13] Permission denied: '/examples'"
+p3
+sS'layer'
+p4
+S'/home/lesinle/web2py/applications/examples/controllers/cache_examples.py'
+p5
+sS'code'
+p6
+S'import time\n\nresponse.view = \'cache_examples/generic.html\'\n\ndef cache_in_ram():\n    """cache the output of the lambda function in ram"""\n\n    t = cache.ram(\'time\', lambda: time.ctime(), time_expire=5)\n    return dict(time=t, link=A(\'click to reload\', _href=URL(r=request)))\n\n\ndef cache_on_disk():\n    """cache the output of the lambda function on disk"""\n\n    t = cache.disk(\'time\', lambda: time.ctime(), time_expire=5)\n    return dict(time=t, link=A(\'click to reload\', _href=URL(r=request)))\n\n\ndef cache_in_ram_and_disk():\n    """cache the output of the lambda function on disk and in ram"""\n\n    t = cache.ram(\'time\', lambda: cache.disk(\'time\', lambda:\n                  time.ctime(), time_expire=5), time_expire=5)\n    return dict(time=t, link=A(\'click to reload\', _href=URL(r=request)))\n\n\n@cache(request.env.path_info, time_expire=5, cache_model=cache.ram)\ndef cache_controller_in_ram():\n    """cache the output of the controller in ram"""\n\n    t = time.ctime()\n    return dict(time=t, link=A(\'click to reload\', _href=URL(r=request)))\n\n\n@cache(request.env.path_info, time_expire=5, cache_model=cache.disk)\ndef cache_controller_on_disk():\n    """cache the output of the controller on disk"""\n\n    t = time.ctime()\n    return dict(time=t, link=A(\'click to reload\', _href=URL(r=request)))\n\n\n@cache(request.env.path_info, time_expire=5, cache_model=cache.ram)\ndef cache_controller_and_view():\n    """cache the output of the controller rendered by the view in ram"""\n\n    t = time.ctime()\n    d = dict(time=t, link=A(\'click to reload\', _href=URL(r=request)))\n    return response.render(d)\n\nresponse._vars=response._caller(cache_controller_on_disk)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__getslice__'
+p12
+S"<method-wrapper '__getslice__' of exceptions.OSError object>"
+p13
+sS'__str__'
+p14
+S"<method-wrapper '__str__' of exceptions.OSError object>"
+p15
+sS'__reduce__'
+p16
+S'<built-in method __reduce__ of exceptions.OSError object>'
+p17
+sS'__dict__'
+p18
+S'{}'
+p19
+sS'__sizeof__'
+p20
+S'<built-in method __sizeof__ of exceptions.OSError object>'
+p21
+sS'__init__'
+p22
+S"<method-wrapper '__init__' of exceptions.OSError object>"
+p23
+sS'__setattr__'
+p24
+S"<method-wrapper '__setattr__' of exceptions.OSError object>"
+p25
+sS'__reduce_ex__'
+p26
+S'<built-in method __reduce_ex__ of exceptions.OSError object>'
+p27
+sS'__new__'
+p28
+S'<built-in method __new__ of type object>'
+p29
+sS'errno'
+p30
+S'13'
+p31
+sS'__format__'
+p32
+S'<built-in method __format__ of exceptions.OSError object>'
+p33
+sS'__class__'
+p34
+S"<type 'exceptions.OSError'>"
+p35
+sS'filename'
+p36
+S"'/examples'"
+p37
+sS'__doc__'
+p38
+S"'OS system call failed.'"
+p39
+sS'__getitem__'
+p40
+S"<method-wrapper '__getitem__' of exceptions.OSError object>"
+p41
+sS'__setstate__'
+p42
+S'<built-in method __setstate__ of exceptions.OSError object>'
+p43
+sS'__getattribute__'
+p44
+S"<method-wrapper '__getattribute__' of exceptions.OSError object>"
+p45
+sS'args'
+p46
+S"(13, 'Permission denied')"
+p47
+sS'__subclasshook__'
+p48
+S'<built-in method __subclasshook__ of type object>'
+p49
+sS'__unicode__'
+p50
+S'<built-in method __unicode__ of exceptions.OSError object>'
+p51
+sS'strerror'
+p52
+S"'Permission denied'"
+p53
+sS'__delattr__'
+p54
+S"<method-wrapper '__delattr__' of exceptions.OSError object>"
+p55
+sS'__repr__'
+p56
+S"<method-wrapper '__repr__' of exceptions.OSError object>"
+p57
+sS'__hash__'
+p58
+S"<method-wrapper '__hash__' of exceptions.OSError object>"
+p59
+ssS'evalue'
+p60
+S"[Errno 13] Permission denied: '/examples'"
+p61
+sS'request'
+p62
+cgluon.html
+XML_unpickle
+p63
+(S's=B\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ajax</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">application</td><td style="vertical-align:top;">:</td><td><div>examples</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cid</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">client</td><td style="vertical-align:top;">:</td><td><div>66.249.75.149</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">controller</td><td style="vertical-align:top;">:</td><td><div>cache_examples</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">env</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">CONTENT_LENGTH</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">CONTENT_TYPE</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">DOCUMENT_ROOT</td><td style="vertical-align:top;">:</td><td><div>/usr/local/openresty/nginx/html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_ENCODING</td><td style="vertical-align:top;">:</td><td><div>gzip,deflate,br</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONNECTION</td><td style="vertical-align:top;">:</td><td><div>close</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_FROM</td><td style="vertical-align:top;">:</td><td><div>googlebot(at)googlebot.com</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_HOST</td><td style="vertical-align:top;">:</td><td><div>bestbuk.pl</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_USER_AGENT</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_X_FORWARDED_FOR</td><td style="vertical-align:top;">:</td><td><div>66.249.75.149</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_X_REAL_IP</td><td style="vertical-align:top;">:</td><td><div>66.249.75.149</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_INFO</td><td style="vertical-align:top;">:</td><td><div>/examples/cache_examples/cache_controller_on_disk</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">QUERY_STRING</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_ADDR</td><td style="vertical-align:top;">:</td><td><div>10.0.0.132</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_PORT</td><td style="vertical-align:top;">:</td><td><div>57040</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_METHOD</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_URI</td><td style="vertical-align:top;">:</td><td><div>/examples/cache_examples/cache_controller_on_disk</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_NAME</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_NAME</td><td style="vertical-align:top;">:</td><td><div>bestbuk.pl</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PORT</td><td style="vertical-align:top;">:</td><td><div>80</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PROTOCOL</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/lesinle/web2py/applications/examples/&#x27;, &#x27;/home/lesinle/web2py/applications/welcome/&#x27;, &#x27;/home/lesinle/web2py/applications/admin/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/lesinle/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">content_length</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">content_type</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">document_root</td><td style="vertical-align:top;">:</td><td><div>/usr/local/openresty/nginx/html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/lesinle/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_encoding</td><td style="vertical-align:top;">:</td><td><div>gzip,deflate,br</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_connection</td><td style="vertical-align:top;">:</td><td><div>close</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_from</td><td style="vertical-align:top;">:</td><td><div>googlebot(at)googlebot.com</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_host</td><td style="vertical-align:top;">:</td><td><div>bestbuk.pl</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_user_agent</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_x_forwarded_for</td><td style="vertical-align:top;">:</td><td><div>66.249.75.149</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_x_real_ip</td><td style="vertical-align:top;">:</td><td><div>66.249.75.149</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>bestbuk.pl</div></td></tr><tr><td><div>34.206.101.184</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>giles-liveweb12</div></td></tr><tr><td><div>localhost</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_info</td><td style="vertical-align:top;">:</td><td><div>/examples/cache_examples/cache_controller_on_disk</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">query_string</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_addr</td><td style="vertical-align:top;">:</td><td><div>10.0.0.132</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_port</td><td style="vertical-align:top;">:</td><td><div>57040</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_method</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_uri</td><td style="vertical-align:top;">:</td><td><div>/examples/cache_examples/cache_controller_on_disk</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_name</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_name</td><td style="vertical-align:top;">:</td><td><div>bestbuk.pl</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_port</td><td style="vertical-align:top;">:</td><td><div>80</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_protocol</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uwsgi.node</td><td style="vertical-align:top;">:</td><td><div>giles-liveweb12</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uwsgi.version</td><td style="vertical-align:top;">:</td><td><div>2.0.14</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uwsgi_node</td><td style="vertical-align:top;">:</td><td><div>giles-liveweb12</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uwsgi_version</td><td style="vertical-align:top;">:</td><td><div>2.0.14</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_path</td><td style="vertical-align:top;">:</td><td><div>/home/lesinle/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.6-stable+timestamp.2016.05.10.00.21.47</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.errors</td><td style="vertical-align:top;">:</td><td><div>&lt;uwsgi_file__bin_user_wsgi_wrapper.ErrorLogFile object at 0x7f566f462b10&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;built-in function uwsgi_sendfile&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.input</td><td style="vertical-align:top;">:</td><td><div>&lt;uwsgi._Input object at 0x7f56798fdfa8&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multiprocess</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multithread</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_errors</td><td style="vertical-align:top;">:</td><td><div>&lt;uwsgi_file__bin_user_wsgi_wrapper.ErrorLogFile object at 0x7f566f462b10&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;built-in function uwsgi_sendfile&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_input</td><td style="vertical-align:top;">:</td><td><div>&lt;uwsgi._Input object at 0x7f56798fdfa8&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multiprocess</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multithread</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">folder</td><td style="vertical-align:top;">:</td><td><div>/home/lesinle/web2py/applications/examples/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">function</td><td style="vertical-align:top;">:</td><td><div>cache_controller_on_disk</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">global_settings</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/lesinle/web2py/applications/examples/&#x27;, &#x27;/home/lesinle/web2py/applications/welcome/&#x27;, &#x27;/home/lesinle/web2py/applications/admin/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/lesinle/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/lesinle/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>bestbuk.pl</div></td></tr><tr><td><div>34.206.101.184</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>giles-liveweb12</div></td></tr><tr><td><div>localhost</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.6-stable+timestamp.2016.05.10.00.21.47</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_https</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_local</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_restful</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_scheduler</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_shell</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">now</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2018, 3, 22, 17, 13, 0, 486149)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_args</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_extension</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">url</td><td style="vertical-align:top;">:</td><td><div>/examples/cache_examples/cache_controller_on_disk</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">utcnow</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2018, 3, 22, 17, 13, 0, 486163)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi</td><td style="vertical-align:top;">:</td><td><div>&lt;gluon.main.LazyWSGI object at 0x7f565e15cb90&gt;</div></td></tr></table></div>'
+tRp64
+sS'frames'
+p65
+(lp66
+(dp67
+S'file'
+p68
+S'/home/lesinle/web2py/gluon/restricted.py'
+p69
+sS'dump'
+p70
+(dp71
+S'environment'
+p72
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, 'CAT': <class 'gluon.html.CAT'>, 'CENTER': <class 'gluon.html.CENTER'>, ...}"
+p73
+sS'ccode'
+p74
+S'<code object <module> at 0x7f565e14ecb0, file "/.../examples/controllers/cache_examples.py", line 1>'
+p75
+ssS'lnum'
+p76
+I227
+sS'lines'
+p77
+(dp78
+I224
+S'            ccode = code'
+p79
+sI225
+S'        else:'
+p80
+sI226
+S'            ccode = compile2(code, layer)'
+p81
+sI227
+S'        exec ccode in environment'
+p82
+sI228
+S'    except HTTP:'
+p83
+sI229
+S'        raise'
+p84
+sI230
+S'    except RestrictedError:'
+p85
+sI231
+S'        # do not encapsulate (obfuscate) the original RestrictedError'
+p86
+sI222
+S'    try:'
+p87
+sI223
+S'        if isinstance(code, types.CodeType):'
+p88
+ssS'call'
+p89
+S'(code="import time\\n\\nresponse.view = \'cache_examples/gen..._vars=response._caller(cache_controller_on_disk)\\n", environment={\'A\': <class \'gluon.html.A\'>, \'ANY_OF\': <class \'gluon.validators.ANY_OF\'>, \'ASSIGNJS\': <function ASSIGNJS>, \'B\': <class \'gluon.html.B\'>, \'BEAUTIFY\': <class \'gluon.html.BEAUTIFY\'>, \'BODY\': <class \'gluon.html.BODY\'>, \'BR\': <class \'gluon.html.BR\'>, \'BUTTON\': <class \'gluon.html.BUTTON\'>, \'CAT\': <class \'gluon.html.CAT\'>, \'CENTER\': <class \'gluon.html.CENTER\'>, ...}, layer=\'/home/lesinle/web2py/applications/examples/controllers/cache_examples.py\')'
+p90
+sS'func'
+p91
+S'restricted'
+p92
+sa(dp93
+g68
+S'/home/lesinle/web2py/applications/examples/controllers/cache_examples.py'
+p94
+sg70
+(dp95
+sg76
+I51
+sg77
+(dp96
+I40
+S"    return dict(time=t, link=A('click to reload', _href=URL(r=request)))"
+p97
+sI41
+S''
+sI42
+S''
+sI43
+S'@cache(request.env.path_info, time_expire=5, cache_model=cache.ram)'
+p98
+sI44
+S'def cache_controller_and_view():'
+p99
+sI45
+S'    """cache the output of the controller rendered by the view in ram"""'
+p100
+sI46
+S''
+sI47
+S'    t = time.ctime()'
+p101
+sI48
+S"    d = dict(time=t, link=A('click to reload', _href=URL(r=request)))"
+p102
+sI49
+S'    return response.render(d)'
+p103
+ssg89
+S'()'
+p104
+sg91
+S'<module>'
+p105
+sa(dp106
+g68
+S'/home/lesinle/web2py/gluon/globals.py'
+p107
+sg70
+(dp108
+S'self'
+p109
+S'undefined'
+p110
+sS'f'
+S'<gluon.cache.CacheAction object>'
+p111
+ssg76
+I417
+sg77
+(dp112
+I416
+S'        self._vars = None'
+p113
+sI417
+S'        self._caller = lambda f: f()'
+p114
+sI418
+S'        self._view_environment = None'
+p115
+sI419
+S'        self._custom_commit = None'
+p116
+sI420
+S'        self._custom_rollback = None'
+p117
+sI421
+S"        self.generic_patterns = ['*']"
+p118
+sI412
+S"        self.flash = ''            # used by the default view layout"
+p119
+sI413
+S'        self.meta = Storage()      # used by web2py_ajax.html'
+p120
+sI414
+S'        self.menu = []             # used by the default view layout'
+p121
+sI415
+S'        self.files = []            # used by web2py_ajax.html'
+p122
+ssg89
+S'(f=<gluon.cache.CacheAction object>)'
+p123
+sg91
+S'<lambda>'
+p124
+sa(dp125
+g68
+S'/home/lesinle/web2py/gluon/cache.py'
+p126
+sg70
+(dp127
+S'self'
+p128
+S'<gluon.cache.CacheAction object>'
+p129
+sS'self.time_expire'
+p130
+S'5'
+ssg76
+I526
+sg77
+(dp131
+I521
+S'        cache_model = self.cache_model'
+p132
+sI522
+S'        if not cache_model or isinstance(cache_model, str):'
+p133
+sI523
+S"            cache_model = getattr(self.cache, cache_model or 'ram')"
+p134
+sI524
+S'        return cache_model(key2,'
+p135
+sI525
+S'                           lambda a=a, b=b: self.func(*a, **b),'
+p136
+sI526
+S'                           self.time_expire)'
+p137
+sI527
+S''
+sI528
+S''
+sI529
+S'class Cache(object):'
+p138
+sI530
+S'    """'
+p139
+ssg89
+S'(self=<gluon.cache.CacheAction object>, *a=(), **b={})'
+p140
+sg91
+S'__call__'
+p141
+sa(dp142
+g68
+S'/home/lesinle/web2py/gluon/cache.py'
+p143
+sg70
+(dp144
+S'value'
+p145
+S"{'link': <gluon.html.A object>, 'time': 'Thu Mar 22 17:13:00 2018'}"
+p146
+sS'self'
+p147
+S'<gluon.cache.CacheOnDisk object>'
+p148
+sS'self.storage'
+p149
+S'<gluon.cache.PersistentStorage object>'
+p150
+sS'now'
+p151
+S'1521738780.502006'
+p152
+sS'key'
+p153
+S"'/examples/cache_examples/cache_controller_on_disk'"
+p154
+ssg76
+I473
+sg77
+(dp155
+I468
+S'                value = f()'
+p156
+sI469
+S'            except:'
+p157
+sI470
+S'                self.storage.release(CacheAbstract.cache_stats_name)'
+p158
+sI471
+S'                self.storage.release(key)'
+p159
+sI472
+S'                raise'
+p160
+sI473
+S'            self.storage[key] = (now, value)'
+p161
+sI474
+S'            self.storage.safe_apply(CacheAbstract.cache_stats_name, inc_misses,'
+p162
+sI475
+S"                                    default_value={'hit_total': 0, 'misses': 0})"
+p163
+sI476
+S''
+sI477
+S'        self.storage.release(CacheAbstract.cache_stats_name)'
+p164
+ssg89
+S"(self=<gluon.cache.CacheOnDisk object>, key='/examples/cache_examples/cache_controller_on_disk', f=<function <lambda>>, time_expire=5)"
+p165
+sg91
+g141
+sa(dp166
+g68
+S'/home/lesinle/web2py/gluon/cache.py'
+p167
+sg70
+(dp168
+S'val_file'
+p169
+g110
+sS'recfile.open'
+p170
+S'<function open>'
+p171
+sS'self.folder'
+p172
+S"'/home/lesinle/web2py/applications/examples/cache'"
+p173
+sS'mode'
+p174
+g110
+sS'key'
+p175
+S"'/examples/cache_examples/cache_controller_on_disk'"
+p176
+sS'path'
+p177
+g110
+sS'global recfile'
+p178
+S"<module 'gluon.recfile' from '/home/lesinle/web2py/gluon/recfile.pyc'>"
+p179
+sS'self'
+p180
+S'<gluon.cache.PersistentStorage object>'
+p181
+ssg76
+I343
+sg77
+(dp182
+I338
+S'        def release(self, key):'
+p183
+sI339
+S'            self.file_locks[key].release()'
+p184
+sI340
+S''
+sI341
+S'        def __setitem__(self, key, value):'
+p185
+sI342
+S'            key = self.key_filter_in(key)'
+p186
+sI343
+S"            val_file = recfile.open(key, mode='wb', path=self.folder)"
+p187
+sI344
+S'            self.wait_portalock(val_file)'
+p188
+sI345
+S'            pickle.dump(value, val_file, pickle.HIGHEST_PROTOCOL)'
+p189
+sI346
+S'            val_file.close()'
+p190
+sI347
+S''
+ssg89
+S"(self=<gluon.cache.PersistentStorage object>, key='/examples/cache_examples/cache_controller_on_disk', value=(1521738780.502006, {'link': <gluon.html.A object>, 'time': 'Thu Mar 22 17:13:00 2018'}))"
+p191
+sg91
+S'__setitem__'
+p192
+sa(dp193
+g68
+S'/home/lesinle/web2py/gluon/recfile.py'
+p194
+sg70
+(dp195
+S'os.path.dirname'
+p196
+S'<function dirname>'
+p197
+sS'fullfilename'
+p198
+S"'/examples/cache_examples/03d/065/cache_controller_on_disk'"
+p199
+sS'global os'
+p200
+S"<module 'os' from '/usr/lib/python2.7/os.pyc'>"
+p201
+sS'os.makedirs'
+p202
+S'<function makedirs>'
+p203
+sS'os.path'
+p204
+S"<module 'posixpath' from '/usr/lib/python2.7/posixpath.pyc'>"
+p205
+ssg76
+I64
+sg77
+(dp206
+I64
+S'            os.makedirs(os.path.dirname(fullfilename))'
+p207
+sI65
+S'    return file(fullfilename, mode)'
+p208
+sI56
+S'    fullfilename = None'
+p209
+sI57
+S"    if not mode.startswith('w'):"
+p210
+sI58
+S'        fullfilename = os.path.join(path, filename)'
+p211
+sI59
+S'        if not os.path.exists(fullfilename):'
+p212
+sI60
+S'            fullfilename = None'
+p213
+sI61
+S'    if not fullfilename:'
+p214
+sI62
+S'        fullfilename = os.path.join(path, generate(filename))'
+p215
+sI63
+S"        if mode.startswith('w') and not os.path.exists(os.path.dirname(fullfilename)):"
+p216
+ssg89
+S"(filename='/examples/cache_examples/cache_controller_on_disk', mode='wb', path='/home/lesinle/web2py/applications/examples/cache')"
+p217
+sg91
+S'open'
+p218
+sa(dp219
+g68
+S'/usr/lib/python2.7/os.py'
+p220
+sg70
+(dp221
+S'global makedirs'
+p222
+S'<function makedirs>'
+p223
+sS'head'
+p224
+S"'/examples/cache_examples/03d'"
+p225
+sS'mode'
+p226
+S'511'
+p227
+ssg76
+I150
+sg77
+(dp228
+I145
+S'    head, tail = path.split(name)'
+p229
+sI146
+S'    if not tail:'
+p230
+sI147
+S'        head, tail = path.split(head)'
+p231
+sI148
+S'    if head and tail and not path.exists(head):'
+p232
+sI149
+S'        try:'
+p233
+sI150
+S'            makedirs(head, mode)'
+p234
+sI151
+S'        except OSError, e:'
+p235
+sI152
+S'            # be happy if someone already created the path'
+p236
+sI153
+S'            if e.errno != errno.EEXIST:'
+p237
+sI154
+S'                raise'
+p238
+ssg89
+S"(name='/examples/cache_examples/03d/065', mode=511)"
+p239
+sg91
+S'makedirs'
+p240
+sa(dp241
+g68
+S'/usr/lib/python2.7/os.py'
+p242
+sg70
+(dp243
+S'global makedirs'
+p244
+S'<function makedirs>'
+p245
+sS'head'
+p246
+S"'/examples/cache_examples'"
+p247
+sS'mode'
+p248
+S'511'
+p249
+ssg76
+I150
+sg77
+(dp250
+I145
+S'    head, tail = path.split(name)'
+p251
+sI146
+S'    if not tail:'
+p252
+sI147
+S'        head, tail = path.split(head)'
+p253
+sI148
+S'    if head and tail and not path.exists(head):'
+p254
+sI149
+S'        try:'
+p255
+sI150
+S'            makedirs(head, mode)'
+p256
+sI151
+S'        except OSError, e:'
+p257
+sI152
+S'            # be happy if someone already created the path'
+p258
+sI153
+S'            if e.errno != errno.EEXIST:'
+p259
+sI154
+S'                raise'
+p260
+ssg89
+S"(name='/examples/cache_examples/03d', mode=511)"
+p261
+sg91
+g240
+sa(dp262
+g68
+S'/usr/lib/python2.7/os.py'
+p263
+sg70
+(dp264
+S'global makedirs'
+p265
+S'<function makedirs>'
+p266
+sS'head'
+p267
+S"'/examples'"
+p268
+sS'mode'
+p269
+S'511'
+p270
+ssg76
+I150
+sg77
+(dp271
+I145
+S'    head, tail = path.split(name)'
+p272
+sI146
+S'    if not tail:'
+p273
+sI147
+S'        head, tail = path.split(head)'
+p274
+sI148
+S'    if head and tail and not path.exists(head):'
+p275
+sI149
+S'        try:'
+p276
+sI150
+S'            makedirs(head, mode)'
+p277
+sI151
+S'        except OSError, e:'
+p278
+sI152
+S'            # be happy if someone already created the path'
+p279
+sI153
+S'            if e.errno != errno.EEXIST:'
+p280
+sI154
+S'                raise'
+p281
+ssg89
+S"(name='/examples/cache_examples', mode=511)"
+p282
+sg91
+g240
+sa(dp283
+g68
+S'/usr/lib/python2.7/os.py'
+p284
+sg70
+(dp285
+S'global mkdir'
+p286
+S'<built-in function mkdir>'
+p287
+sS'name'
+p288
+S"'/examples'"
+p289
+sS'mode'
+p290
+S'511'
+p291
+ssg76
+I157
+sg77
+(dp292
+I160
+S'    """removedirs(path)'
+p293
+sI161
+S''
+sI152
+S'            # be happy if someone already created the path'
+p294
+sI153
+S'            if e.errno != errno.EEXIST:'
+p295
+sI154
+S'                raise'
+p296
+sI155
+S'        if tail == curdir:           # xxx/newdir/. exists if xxx/newdir exists'
+p297
+sI156
+S'            return'
+p298
+sI157
+S'    mkdir(name, mode)'
+p299
+sI158
+S''
+sI159
+S'def removedirs(name):'
+p300
+ssg89
+S"(name='/examples', mode=511)"
+p301
+sg91
+g240
+sasS'pyver'
+p302
+S'Python 2.7.6: /usr/local/bin/uwsgi (prefix: /usr)'
+p303
+sS'session'
+p304
+g63
+(S's\x1a\x00\x00\x00<div><table></table></div>'
+tRp305
+sS'etype'
+p306
+S"<type 'exceptions.OSError'>"
+p307
+sS'date'
+p308
+S'Thu Mar 22 17:13:00 2018'
+p309
+sS'response'
+p310
+g63
+(S's9\x1a\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">body</td><td style="vertical-align:top;">:</td><td><div>&lt;cStringIO.StringO object at 0x7f565e0aba40&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_examples</td><td style="vertical-align:top;">:</td><td><div>66.249.75.149-81795742-ecab-44d8-bdd6-92f82eef0f61<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">delimiters</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">files</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">form_label_separator</td><td style="vertical-align:top;">:</td><td><div>: </div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">formstyle</td><td style="vertical-align:top;">:</td><td><div>table3cols</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generic_patterns</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>*</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">headers</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">X-Powered-By</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">menu</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div><table><tr><td><div>Home</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/examples/default/index</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>About</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/examples/default/what</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Download</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/examples/default/download</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Docs &amp; Resources</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/examples/default/documentation</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Support</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/examples/default/support</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Contributors</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/examples/default/who</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">meta</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">models_to_run</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^cache_examples/\\w+\\.py$</div></td></tr><tr><td><div>^cache_examples/cache_controller_on_disk/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">postprocessing</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_client</td><td style="vertical-align:top;">:</td><td><div>66.249.75.149</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_compression_level</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_expires</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_data_name</td><td style="vertical-align:top;">:</td><td><div>session_data_examples</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_file</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_filename</td><td style="vertical-align:top;">:</td><td><div>/home/lesinle/web2py/applications/examples/sessions/66.249.75.149-81795742-ecab-44d8-bdd6-92f82eef0f61</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_hash</td><td style="vertical-align:top;">:</td><td><div>c0762cbf4baf7f9af97c051e7fcb8083</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_name</td><td style="vertical-align:top;">:</td><td><div>session_id_examples</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_masterapp</td><td style="vertical-align:top;">:</td><td><div>examples</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_new</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_storage_type</td><td style="vertical-align:top;">:</td><td><div>cookie</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">status</td><td style="vertical-align:top;">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">view</td><td style="vertical-align:top;">:</td><td><div>cache_examples/generic.html</div></td></tr></table></div>'
+tRp311
+sS'locals'
+p312
+(dp313
+S'mode'
+p314
+S'511'
+p315
+sS'tail'
+p316
+S"'examples'"
+p317
+sS'head'
+p318
+S"'/'"
+p319
+sS'name'
+p320
+S"'/examples'"
+p321
+sssS'traceback'
+p322
+S'Traceback (most recent call last):\n  File "/home/lesinle/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/lesinle/web2py/applications/examples/controllers/cache_examples.py", line 51, in <module>\n  File "/home/lesinle/web2py/gluon/globals.py", line 417, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/lesinle/web2py/gluon/cache.py", line 526, in __call__\n    self.time_expire)\n  File "/home/lesinle/web2py/gluon/cache.py", line 473, in __call__\n    self.storage[key] = (now, value)\n  File "/home/lesinle/web2py/gluon/cache.py", line 343, in __setitem__\n    val_file = recfile.open(key, mode=\'wb\', path=self.folder)\n  File "/home/lesinle/web2py/gluon/recfile.py", line 64, in open\n    os.makedirs(os.path.dirname(fullfilename))\n  File "/usr/lib/python2.7/os.py", line 150, in makedirs\n    makedirs(head, mode)\n  File "/usr/lib/python2.7/os.py", line 150, in makedirs\n    makedirs(head, mode)\n  File "/usr/lib/python2.7/os.py", line 150, in makedirs\n    makedirs(head, mode)\n  File "/usr/lib/python2.7/os.py", line 157, in makedirs\n    mkdir(name, mode)\nOSError: [Errno 13] Permission denied: \'/examples\'\n'
+p323
+s.

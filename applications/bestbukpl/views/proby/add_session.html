@@ -1,0 +1,117 @@
+{{extend 'layout.html'}}
+<h1>To jest szablon proby/add_session.html</h1>
+{{=BEAUTIFY(response._vars)}}
+{{=session}}
+{{napis="napisik"}}
+<script src="{{=URL('static','js/bootstrap.min_ll.js')}}"></script>
+
+<div class="col-lg-9 col-sm-12">
+
+<h2>
+    No zobaczmy:
+    <div class="klasa" name="text" value="text_value" onclick="{{=URL('proby','add_session',vars=dict(game='no_ciekawe'))}}" ><p>
+        10
+        </p>
+    <p>
+        <a href="{{=URL('proby','add_session',vars=dict(game='no_ciekawe'))}}">A teraz?</a>
+        </p>
+<table class="table table-striped">
+    <tr>
+        <td>Bayern M.</td>
+        <td>Hoffenheim</td>
+        <td>2018-08-24</td>
+        <td onclick="ajax('{{=URL('proby','add_session',vars=dict(game=1,home='Bayern M',away='Hoffe',typ='1',kurs='1.29'))}}',['q'],'text');">1.29</td>
+        <td onclick="{{=URL('proby','add_session',vars=dict(game=1,home='Bayern M',away='Hoffe',typ='1',kurs='1.29'))}}"><a href="{{=URL('proby','add_session',vars=dict(game_id=123,game=1,home='Bayern M',away='Hoffe',typ='x',kurs='6',odd='game'))}}">6</a></td>
+        <td><a href="{{=URL('proby','add_session',vars=dict(game_id=123,game=1,home='Bayern M',away='Hoffe',typ='x',kurs='10',odd='over2.5'))}}">10</a></td>
+        <td><form>
+            <input name="name" onkeyup="ajax('{{=URL('add_session', 'echo')}}', dict(game_id=123,game=1,home='Bayern M',away='Hoffe',typ='x',kurs='6',odd='game'), ':eval')">1.06</form>></td>
+        <td>3.75</td>
+        <td>1.14</td>
+        <td><a href="https://bestbuk.pl/kursy_game?game_id=778">Więcej</a></td>
+    </tr>
+        </table>
+    <p>
+        <div class="cos" onclick="ajax('{{=URL('proby','add_session',vars=dict(game=napis))}}',['q'],'text');" >
+            Ajax
+        </div>
+        </p></div>
+<p>
+    {{=napis}}
+</p>
+
+</h2>
+{{if session.cos:}}
+<div class="cos" onclick="ajax('{{=URL('proby','add_session',vars=dict(cos=napis))}}',['q'],'text');">
+    
+Tu jest jakiś tekst
+    </div>
+{{pass}}
+
+{{if len(session.games)>0:}}
+{{block right_sidebar}}
+<table class = "table">
+    <tr>
+         <th>Mecz</th>
+         <th>Typ </th>
+         <th>Kurs </th>
+         <th>&nbsp;</th>
+      </tr>
+{{for game in session['games']:}}
+
+    <tr>
+         <td>{{=session['games'][game]['home']}} - {{=session['games'][game]['away']}}<br>
+         <div class="small font-weight-light">{{=session['games'][game]['odd']}}</div></td>
+         <td>{{=session['games'][game]['typ']}}</td>
+         <td>{{=session['games'][game]['typ']}}</td>
+         <td>x</td>
+      </tr>
+
+{{pass}}
+</table>
+
+
+<div class="row " style="max-width: 280px;position: fixed;bottom: 10px;right: 20px;width: 100%;">
+  <div class="" id='target'>
+    <div class="panel panel-default all-kupon">
+      <div class="panel-heading" onclick="jQuery('.kupon').slideToggle()">Kupon       &#95<span type="button" class="btn-xs" onclick="jQuery('.all-kupon').slideToggle()"><span class="glyphicon glyphicon-remove" aria-hidden="true" >&times</span></span></div>
+        <div class='kupon'>
+
+         <table class = "table">
+      <tr>
+         <th>Mecz</th>
+         <th>Typ </th>
+         <th>Kurs </th>
+      </tr>
+
+      <tr>
+         <td>Manchester - Tottenham<br>
+         <div class="small font-weight-light">mecz 1x2</div></td>
+         <td>1</td>
+         <td>2.03</td>
+      </tr>
+      <tr>
+         <td>Chelsea - Liverpool<br>
+         <div class="small font-weight-light">goals2.5 u/o</div></td>
+         <td>2</td>
+         <td>1.83</td>
+      </tr>
+   </table>
+    <div class="panel-footer">
+        Stawka:
+        <form>
+   <input name="name" onkeyup="ajax('{{=URL('proby', 'kwota')}}', ['name'], 'target'); ajax('{{=URL('proby', 'podatek')}}', ['name'], 'podatek')" />
+</form>
+        Podatek: <div id="podatek">
+        12zł
+        </div>
+<div id="target"></div>
+        Kurs łączny</div>
+  </div>
+</div>
+        </div>
+
+
+
+
+{{end}}
+{{pass}}

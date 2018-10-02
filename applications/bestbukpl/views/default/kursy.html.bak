@@ -1,0 +1,62 @@
+{{left_sidebar_enabled=True}}
+{{right_sidebar_enabled=False}}
+{{extend 'layout.html'}}
+{{session_kupon=0}}
+
+{{block header}}
+    <header class="container-fluid background">
+      <div class="jumbotron text-center">
+        {{if response.title:}}
+        <h1>{{#=response.title}}
+          <small>{{=response.subtitle or ''}}</small></h1>
+        {{pass}}
+      </div>
+    </header>
+{{end}}
+<h1>
+    {{=league}}
+</h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <td>Home</td>
+        <td>Away</td>
+        <td>Date</td>
+        <td>1</td>
+        <td>X</td>
+        <td>2</td>
+        <td>1X</td>
+        <td>x2</td>
+        <td>12</td>
+        <td>Więcej</td>
+    </tr>
+        </thead>
+    {{for row in rows:}}
+    <tr>
+        <td>{{=row['home']}}</td>
+        <td>{{=row.away}}</td>
+        <td>{{=row.data}}</td>
+        <td>{{=row['fortuna_game_1']}}</td>
+        <td>{{=row.fortuna_game_0}}</td>
+        <td>{{=row.fortuna_game_2}}</td>
+        <td>{{=row.fortuna_game_10}}</td>
+        <td>{{=row.fortuna_game_02}}</td>
+        <td>{{=row.fortuna_game_12}}</td>
+        <td><a href="{{=URL("kursy_game?game_id="+str(row.id), scheme=True, host=True)}}">Więcej</a></td>
+    </tr>
+    {{pass}}
+
+</table>
+{{#=BEAUTIFY(response._vars)}}
+{{#z='Eredevise'}}
+{{block left_sidebar}}
+<ul class="nav flex-column">
+    <li class="nav-item"><a href='kursy?league=Ekstraklasa Polska'>Ekstraklasa</a></li>
+    <li class="nav-item"><a href='kursy?league=Bundesliga' onclick="ajax('{{=URL('data')}}',['Bundesliga'],'target');" id="q">Bundesliga</a></li>
+    <li class="nav-item"><a href='kursy?league=Primera Division'>Primera Division</a></li>
+    <li class="nav-item"><a href='kursy?league=Serie A'>Serie A</a></li>
+    <li class="nav-item"><a href='kursy?league=Ligue 1'>Ligue 1</a></li>
+    <li class="nav-item"><a href='kursy?league=Eredevise'>Eredevise</a></li>
+</ul>
+{{=rows}}
+{{end}}

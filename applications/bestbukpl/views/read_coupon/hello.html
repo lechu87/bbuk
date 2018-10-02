@@ -1,0 +1,51 @@
+{{extend 'layout.html'}}
+<h1>
+    Wklej link do kuponu:
+</h1>
+<form action="{{=URL('hello')}}">
+  <input name="c_id" />
+  <input type="submit" />
+</form>
+<h1>Twój kupon:</h1>
+
+<table class="table">
+
+{{=home_list}}
+{{=away_list}}
+{{=typ_list}}
+{{=typ_name_list}}
+
+    <tr>
+        <td>Home</td>
+        <td>Away</td>
+        <td>Date</td>
+        <td>typ</td>
+        <td>kurs sts</td>
+        <td>kurs fortuna</td>
+        <td>kurs totolotek</td>
+        <td>kurs lvbet</td>
+    </tr>
+    {{for i in range(0,len(wynik['db_fortuna'])):}}
+    <tr>
+        <td>{{=wynik['db_fortuna'][i][0].home}}</td>
+        <td>{{=wynik['db_fortuna'][i][0].away}}</td>
+        <td>{{=wynik['db_fortuna'][i][0].data}}</td>
+        <td>{{=typ_name_list[i]}}</td>
+        <td>{{=wynik['db_sts'][i][0][typ_list[i]]}}</td>
+        <td>{{=wynik['db_fortuna'][i][0][typ_list[i]]}}</td>
+        <td>{{=wynik['db_totolotek'][i][0][typ_list[i]]}}</td>
+        <td>{{=wynik['db_lvbet'][i][0][typ_list[i]]}}</td>
+    </tr>
+    {{pass}}
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><b>Kurs łącznie:</b></td>
+        <td><b>{{=full_kurs['db_sts']}}</b></td>
+        <td><b>{{=full_kurs['db_fortuna']}}</b></td>
+        <td><b>{{=full_kurs['db_totolotek']}}</b></td>
+        <td><b>{{=full_kurs['db_lvbet']}}</b></td>
+    </tr>
+
+</table>

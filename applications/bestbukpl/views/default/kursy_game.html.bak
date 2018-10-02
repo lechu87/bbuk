@@ -1,0 +1,65 @@
+{{left_sidebar_enabled=True}}
+{{right_sidebar_enabled=False}}
+{{extend 'layout.html'}}
+{{from collections import OrderedDict}}
+
+{{block header}}
+    <header class="container-fluid background">
+      <div class="jumbotron text-center">
+        {{if response.title:}}
+        <h1>{{#=response.title}}
+          <small>{{=response.subtitle or ''}}</small></h1>
+        {{pass}}
+      </div>
+    </header>
+{{end}}
+<h1>
+    {{=rows[0].home}} - 
+    {{=rows[0].away}}<br>
+</h1>
+<h3>
+    {{=rows[0].data}}
+    {{=rows[0].hour}}
+</h3>
+<h4>
+    <a href="kursy_game?game_id={{=request.vars.game_id}}&typ=liczba%20goli" class="btn btn-{{if request.vars.typ=='liczba goli':}}primary{{else: }}secondary{{pass}}">Liczba goli</a>
+    <a href="kursy_game?game_id={{=request.vars.game_id}}&typ=mecz" class="btn btn-{{if request.vars.typ=='mecz':}}primary{{else: }}secondary{{pass}}">Mecz</a>
+    <a href="kursy_game?game_id={{=request.vars.game_id}}&typ=half/end" class="btn btn-{{if request.vars.typ=='half/end':}}primary{{else: }}secondary{{pass}}">ht/ft</a>
+    <a href="kursy_game?game_id={{=request.vars.game_id}}&typ=dnb" class="btn btn-secondary">dnb</a>
+    <a href="kursy_game?game_id={{=request.vars.game_id}}&typ=btts" class="btn btn-secondary">btts</a>
+    <a href="kursy_game?game_id={{=request.vars.game_id}}&typ=btts/game" class="btn btn-secondary">btts / mecz</a>
+    <br>
+    {{=typ}}
+</h4>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td>Bukmacher</td>
+            {{for i in bets[typ]['show']:}}
+            <td>{{=i}}</td>
+            {{pass}}
+        </tr>
+    </thead>
+            {{for bookie in bookies:}}
+            <tr>
+                <td>{{=bookie}}</td>
+                {{for k in bets[typ]['name']:}}
+                        <td>{{=rows[0][str(bookie)+"_"+str(k)]}}</td>
+                {{pass}}
+            </tr>
+            {{pass}}
+</table>
+
+
+
+{{block left_sidebar}}
+<ul class="nav flex-column">
+    <li class="nav-item"><a href='kursy?league=Ekstraklasa Polska'>Ekstraklasa</a></li>
+    <li class="nav-item"><a href='kursy?league=Bundesliga'>Bundesliga</a></li>
+    <li class="nav-item"><a href='kursy?league=Primera Division'>Primera Division</a></li>
+    <li class="nav-item"><a href='kursy?league=Serie A'>Serie A</a></li>
+    <li class="nav-item"><a href='kursy?league=Ligue 1'>Ligue 1</a></li>
+    <li class="nav-item"><a href='kursy?league=Eredevise'>Eredevise</a></li>
+</ul>
+{{end}}

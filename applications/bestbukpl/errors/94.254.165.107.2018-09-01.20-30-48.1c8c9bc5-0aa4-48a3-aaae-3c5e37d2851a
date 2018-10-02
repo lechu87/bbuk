@@ -1,0 +1,629 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.TypeError'> execv() arg 2 must contain only strings"
+p3
+sS'layer'
+p4
+S'/home/lesinle/web2py/applications/bestbukpl/controllers/default.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# this file is released under public domain and you can use without limitations\n\n# -------------------------------------------------------------------------\n# This is a sample controller\n# - index is the default action of any application\n# - user is required for authentication and authorization\n# - download is for downloading files uploaded in the db (does streaming)\n# -------------------------------------------------------------------------\nimport subprocess\nimport re\nfrom collections import defaultdict\nfrom collections import OrderedDict\n\ndef hello():\n    #rows=s.select()\n    #rows=s.select()\n    check_id=request.vars.c_id\n    #x=subprocess.call([\'python3\', \'/home/lesinle/odds/read_coupon_fortuna_wo_sql.py\',check_id])\n    x=subprocess.check_output([\'python3\',\'/home/lesinle/odds/read_coupon_fortuna_wo_sql.py\',check_id])\n    y1=re.sub(\'\\[\',\'\',x)\n    y2=re.sub(\']\',\'\',y1)\n    y=y2.split("\'")\n    #print (y\n    #y = [x for x in y if x != [\'[\',\']\']]\n    #y.remove(\'[\')\n    new_list=[]\n    for el in y:\n        if el not in [",","[","\']","[\'","]","[","],","],[","], ["," ","\\n",", ","\'",",\\n",""]:\n            new_list.append(el)\n    home2=[]\n    home_list=[]\n    away_list=[]\n    typ_list=[]\n    typ_name_list=[]\n    for i in range(0,len(new_list)-1,4):\n        home_list.append(new_list[i])\n        away_list.append(new_list[i+1])\n        typ_list.append(new_list[i+2])\n        typ_name_list.append(new_list[i+3])\n    wynik=defaultdict(str)\n    for i in range(0,len(home_list)):\n        for bookie in bookies:\n            if bookie not in wynik.keys():\n                wynik[bookie]=[]\n        #wynik[bookie].append(db((db[bookie].home==\'Leicester\') & (db[bookie].away==\'Watford\')).select())\n            wynik[bookie].append(db1((db1[bookie].home==home_list[i]) & (db1[bookie].away==away_list[i])).select())\n    for i in range(0,len(home_list)):\n        for bookie in bookies:\n            if len(wynik[bookie][i])==0:\n                wynik[bookie][i]=db1((db1[bookie].home==\'Test\') & (db1[bookie].away==\'Test\')).select()\n            #wynik2=db((db.bookie.home==\'Leicester\') & (db.bookie.away==\'Watford\')).select()\n            #wynik=[wynik1,wynik2]\n        #else\n        #    wynik = wynik&\n#    wynik_temp=db(((db.db_sts.home==\'Leicester\') & (db.db_sts.away==\'Watford\')) | ((db.db_fortuna.home==\'Leicester\') & (db.db_fortuna.away==\'Watford\'))).select()\n    #q = (home==\'Leicester\' & away==\'Watford\')\n    #s=db(q)\n    #for i in range(0,len(home_list)):\n    #    rows=db((home==home_list[i]) & (away==away_list[i])).select()\n        #cos=typ_list[1]    #rows = db((home==\'Leicester\') & (away==\'Watford\')).select()\n    #for bookie in bookies:\n    #    if len(wynik[bookie])==0:\n    #        wynik[bookie].append(db((db[bookie].home==\'Test\') & (db[bookie].away==\'Test\')).select())\n    full_kurs= defaultdict(lambda:1)\n    for i in range(0,len(home_list)):\n        for bookie in bookies:\n            if bookie not in full_kurs.keys():\n                full_kurs[bookie]=1\n            try:\n                full_kurs[bookie]=full_kurs[bookie]*float(wynik[bookie][i][0][typ_list[i]])\n            except:\n                full_kurs[bookie]=full_kurs[bookie]*1\n\n    #select distinct db_sts.home, db_sts.away, db_sts.data, db_sts.game_1 as sts_1, db_fortuna.game_1 as fortuna_1 from db_sts JOIN db_fortuna on (db_sts.home=db_fortuna.home and db_sts.away=db_fortuna.away)\n#where db_sts.home like \'Leicester\' and db_sts.away like \'Watford\'\n#http://web2py.com/books/default/chapter/42/06/warstwa-abstracji-bazy-danych\n    return locals()\n\n\n\ndef index():\n    """\n    example action using the internationalization operator T and flash\n    rendered by views/default/index.html or views/generic.html\n\n    if you need a simple wiki simply replace the two lines below with:\n    return auth.wiki()\n    """\n    response.flash = T("Hello World")\n    #form=SQLFORM.factory(Field(\'Kupon\')).process()\n    #return dict(message=T(\'Welcome to web2py!\'))\n    return locals()\n\n\ndef user():\n    """\n    exposes:\n    http://..../[app]/default/user/login\n    http://..../[app]/default/user/logout\n    http://..../[app]/default/user/register\n    http://..../[app]/default/user/profile\n    http://..../[app]/default/user/retrieve_password\n    http://..../[app]/default/user/change_password\n    http://..../[app]/default/user/bulk_register\n    use @auth.requires_login()\n        @auth.requires_membership(\'group name\')\n        @auth.requires_permission(\'read\',\'table name\',record_id)\n    to decorate functions that need access control\n    also notice there is http://..../[app]/appadmin/manage/auth to allow administrator to manage users\n    """\n    return dict(form=auth())\n\n\n@cache.action()\ndef download():\n    """\n    allows downloading of uploaded files\n    http://..../[app]/default/download/[filename]\n    """\n    return response.download(request, db)\n\n\ndef call():\n    """\n    exposes services. for example:\n    http://..../[app]/default/call/jsonrpc\n    decorate with @services.jsonrpc the functions to expose\n    supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv\n    """\n    return service()\n\ndef get_value(x):\n    if x not in None:\n        return float(x)\ndef bets_list():\n    bets={\'mecz\':{\'name\':[\'game_1\',\'game_0\',\'game_2\',\'game_10\',\'game_02\',\'game_12\'],\'show\':[\'1\',\'X\',\'2\',\'1X\',\'X2\',\'12\']},\n          \'liczba goli\':{\'name\':[\'o_25\',\'u_25\',\'o_15\',\'u_15\',\'o_35\',\'u_35\',\'o_45\',\'u_45\'],\'show\':[\'pow. 2.5\',\'pon. 2.5\',\'pow. 1.5\',\'pon. 1.5\',\'pow. 3.5\',\'pon. 3.5\',\'pow. 4.5\',\'pon. 4.5\']},\n         \'half/end\':{\'name\':[\'ht_ft_11\',\'ht_ft_1x\',\'ht_ft_2x\',\'ht_ft_21\',\'ht_ft_22\',\'ht_ft_x1\',\'ht_ft_x2\',\'ht_ft_12\',\'ht_ft_xx\'],\'show\':[\'1/1\',\'1/x\',\'2/x\',\'2/1\',\'2/2\',\'x/1\',\'x/2\',\'1/2\',\'x/x\']},\n         \'dnb\':{\'name\':[\'dnb_1\',\'dnb_2\'],\'show\':[\'Remis nie ma zak\xc5\x82adu 1\',\'Remis nie ma zak\xc5\x82adu - 2\']},\n         \'btts\':{\'name\':[\'btts_yes\',\'btts_no\'],\'show\':[\'Obie dru\xc5\xbcyny strzel\xc4\x85 gola - TAK\',\'Obie dru\xc5\xbcyny strzel\xc4\x85 gola - NIE\']},\n         \'btts/game\':{\'name\':[\'btts_1\',\'btts_2\',\'btts_x\',\'btts_no_1\',\'btts_no_2\',\'btts_no_x\'],\'show\':[\'btts tak / 1\',\'btts tak / 2 \',\'btts tak / X\',\'btts nie / 1\',\'btts nie / 2\',\'btts nie / x\']}}\n    return bets\n\ndef kursy():\n    league=request.vars.league\n    if league is None:\n        league=\'Ekstraklasa Polska\'\n    rows = db1((db1[\'db_bets\'].League==league) & (db1[\'db_bets\'].data>=\'2018-07-21\')).select()\n    bets=bets_list()\n    bookies=[\'fortuna\',\'sts\',\'iforbet\',\'lvbet\',\'totolotek\']\n    return locals()\n\ndef kursy_game():\n    bets=bets_list()\n    game_id=request.vars.game_id\n    if game_id is None:\n        game_id=429\n    odd_type=request.vars.odd_type\n    rows=db1((db1[\'db_bets\'].id==game_id)).select()\n    #bets=OrderedDict({\'game\':OrderedDict({\'game_0\':\'0\',\'game_1\':\'1\',\'game_2\':\'2\',\'game_10\':\'1x\',\'game_02\':\'x2\',\'game_12\':\'12\'})})\n\n    bookies=[\'fortuna\',\'sts\',\'iforbet\',\'lvbet\',\'totolotek\']\n    typ=request.vars.typ\n    if typ is None:\n        typ=\'mecz\'\n    return locals()\n\ndef data():\n    if not session.m or len(session.m)==10: session.m=[]\n    if request.vars.q: session.m.append(request.vars.q)\n    session.m.sort()\n    return session.m\n\nresponse._vars=response._caller(hello)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__getslice__'
+p12
+S"<method-wrapper '__getslice__' of exceptions.TypeError object>"
+p13
+sS'__str__'
+p14
+S"<method-wrapper '__str__' of exceptions.TypeError object>"
+p15
+sS'__reduce__'
+p16
+S'<built-in method __reduce__ of exceptions.TypeError object>'
+p17
+sS'__dict__'
+p18
+S'{\'child_traceback\': \'Traceback (most recent call last):\\n  File "/usr/...peError: execv() arg 2 must contain only strings\\n\'}'
+p19
+sS'__sizeof__'
+p20
+S'<built-in method __sizeof__ of exceptions.TypeError object>'
+p21
+sS'__init__'
+p22
+S"<method-wrapper '__init__' of exceptions.TypeError object>"
+p23
+sS'__setattr__'
+p24
+S"<method-wrapper '__setattr__' of exceptions.TypeError object>"
+p25
+sS'__reduce_ex__'
+p26
+S'<built-in method __reduce_ex__ of exceptions.TypeError object>'
+p27
+sS'__new__'
+p28
+S'<built-in method __new__ of type object>'
+p29
+sS'child_traceback'
+p30
+S'\'Traceback (most recent call last):\\n  File "/usr/...peError: execv() arg 2 must contain only strings\\n\''
+p31
+sS'__format__'
+p32
+S'<built-in method __format__ of exceptions.TypeError object>'
+p33
+sS'__class__'
+p34
+S"<type 'exceptions.TypeError'>"
+p35
+sS'__doc__'
+p36
+S"'Inappropriate argument type.'"
+p37
+sS'__getitem__'
+p38
+S"<method-wrapper '__getitem__' of exceptions.TypeError object>"
+p39
+sS'__setstate__'
+p40
+S'<built-in method __setstate__ of exceptions.TypeError object>'
+p41
+sS'__getattribute__'
+p42
+S"<method-wrapper '__getattribute__' of exceptions.TypeError object>"
+p43
+sS'args'
+p44
+S"('execv() arg 2 must contain only strings',)"
+p45
+sS'__subclasshook__'
+p46
+S'<built-in method __subclasshook__ of type object>'
+p47
+sS'__unicode__'
+p48
+S'<built-in method __unicode__ of exceptions.TypeError object>'
+p49
+sS'__delattr__'
+p50
+S"<method-wrapper '__delattr__' of exceptions.TypeError object>"
+p51
+sS'__repr__'
+p52
+S"<method-wrapper '__repr__' of exceptions.TypeError object>"
+p53
+sS'__hash__'
+p54
+S"<method-wrapper '__hash__' of exceptions.TypeError object>"
+p55
+ssS'evalue'
+p56
+S'execv() arg 2 must contain only strings'
+p57
+sS'request'
+p58
+cgluon.html
+XML_unpickle
+p59
+(S's\xfbP\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ajax</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">application</td><td style="vertical-align:top;">:</td><td><div>bestbukpl</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cid</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">client</td><td style="vertical-align:top;">:</td><td><div>94.254.165.107</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">controller</td><td style="vertical-align:top;">:</td><td><div>default</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_admin</td><td style="vertical-align:top;">:</td><td><div>94.254.165.107-48244ec2-c132-4716-b5b1-390b3292bb97<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_bestbukpl</td><td style="vertical-align:top;">:</td><td><div>94.254.165.107-810dd009-a2c3-49fd-8f2e-b9a05c352420<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">env</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">CONTENT_LENGTH</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">CONTENT_TYPE</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">DOCUMENT_ROOT</td><td style="vertical-align:top;">:</td><td><div>/usr/local/openresty/nginx/html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTPS</td><td style="vertical-align:top;">:</td><td><div>on</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_ENCODING</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate, br</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_LANGUAGE</td><td style="vertical-align:top;">:</td><td><div>en-GB,en;q=0.5</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONNECTION</td><td style="vertical-align:top;">:</td><td><div>close</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_COOKIE</td><td style="vertical-align:top;">:</td><td><div>session_id_bestbukpl=94.254.165.107-810dd009-a2c3-49fd-8f2e-b9a05c352420; session_id_admin=94.254.165.107-48244ec2-c132-4716-b5b1-390b3292bb97</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_DNT</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_HOST</td><td style="vertical-align:top;">:</td><td><div>bestbuk.pl</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_REFERER</td><td style="vertical-align:top;">:</td><td><div>https://bestbuk.pl/admin/edit/bestbukpl/controllers/default.py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_UPGRADE_INSECURE_REQUESTS</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_USER_AGENT</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_X_FORWARDED_FOR</td><td style="vertical-align:top;">:</td><td><div>94.254.165.107</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_X_REAL_IP</td><td style="vertical-align:top;">:</td><td><div>94.254.165.107</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_INFO</td><td style="vertical-align:top;">:</td><td><div>/hello</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">QUERY_STRING</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_ADDR</td><td style="vertical-align:top;">:</td><td><div>10.0.0.198</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_PORT</td><td style="vertical-align:top;">:</td><td><div>54832</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_METHOD</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_URI</td><td style="vertical-align:top;">:</td><td><div>/hello</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_NAME</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_NAME</td><td style="vertical-align:top;">:</td><td><div>bestbuk.pl</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PORT</td><td style="vertical-align:top;">:</td><td><div>443</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PROTOCOL</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/lesinle/web2py/applications/bestbukpl/&#x27;, &#x27;/home/lesinle/web2py/applications/admin/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/lesinle/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">content_length</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">content_type</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">document_root</td><td style="vertical-align:top;">:</td><td><div>/usr/local/openresty/nginx/html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/lesinle/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_encoding</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate, br</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_language</td><td style="vertical-align:top;">:</td><td><div>en-GB,en;q=0.5</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_connection</td><td style="vertical-align:top;">:</td><td><div>close</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cookie</td><td style="vertical-align:top;">:</td><td><div>session_id_bestbukpl=94.254.165.107-810dd009-a2c3-49fd-8f2e-b9a05c352420; session_id_admin=94.254.165.107-48244ec2-c132-4716-b5b1-390b3292bb97</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_dnt</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_host</td><td style="vertical-align:top;">:</td><td><div>bestbuk.pl</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_referer</td><td style="vertical-align:top;">:</td><td><div>https://bestbuk.pl/admin/edit/bestbukpl/controllers/default.py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_upgrade_insecure_requests</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_user_agent</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_x_forwarded_for</td><td style="vertical-align:top;">:</td><td><div>94.254.165.107</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_x_real_ip</td><td style="vertical-align:top;">:</td><td><div>94.254.165.107</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">https</td><td style="vertical-align:top;">:</td><td><div>on</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>bestbuk.pl</div></td></tr><tr><td><div>35.173.69.207</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>conrad-liveweb7</div></td></tr><tr><td><div>localhost</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_info</td><td style="vertical-align:top;">:</td><td><div>/hello</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">query_string</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_addr</td><td style="vertical-align:top;">:</td><td><div>10.0.0.198</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_port</td><td style="vertical-align:top;">:</td><td><div>54832</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_method</td><td style="vertical-align:top;">:</td><td><div>GET</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_uri</td><td style="vertical-align:top;">:</td><td><div>/bestbukpl/default/hello</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_name</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_name</td><td style="vertical-align:top;">:</td><td><div>bestbuk.pl</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_port</td><td style="vertical-align:top;">:</td><td><div>443</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_protocol</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uwsgi.node</td><td style="vertical-align:top;">:</td><td><div>conrad-liveweb7</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uwsgi.version</td><td style="vertical-align:top;">:</td><td><div>2.0.17.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uwsgi_node</td><td style="vertical-align:top;">:</td><td><div>conrad-liveweb7</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">uwsgi_version</td><td style="vertical-align:top;">:</td><td><div>2.0.17.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_original_uri</td><td style="vertical-align:top;">:</td><td><div>/hello</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_path</td><td style="vertical-align:top;">:</td><td><div>/home/lesinle/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.6-stable+timestamp.2016.05.10.00.21.47</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.errors</td><td style="vertical-align:top;">:</td><td><div>&lt;uwsgi_file__bin_user_wsgi_wrapper.ErrorLogFile object at 0x7f2c9269fb90&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;built-in function uwsgi_sendfile&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.input</td><td style="vertical-align:top;">:</td><td><div>&lt;uwsgi._Input object at 0x7f2c9cb38e70&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multiprocess</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multithread</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.url_scheme</td><td style="vertical-align:top;">:</td><td><div>https</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_errors</td><td style="vertical-align:top;">:</td><td><div>&lt;uwsgi_file__bin_user_wsgi_wrapper.ErrorLogFile object at 0x7f2c9269fb90&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;built-in function uwsgi_sendfile&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_input</td><td style="vertical-align:top;">:</td><td><div>&lt;uwsgi._Input object at 0x7f2c9cb38e70&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multiprocess</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multithread</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_url_scheme</td><td style="vertical-align:top;">:</td><td><div>https</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">folder</td><td style="vertical-align:top;">:</td><td><div>/home/lesinle/web2py/applications/bestbukpl/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">function</td><td style="vertical-align:top;">:</td><td><div>hello</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">global_settings</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/lesinle/web2py/applications/bestbukpl/&#x27;, &#x27;/home/lesinle/web2py/applications/admin/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/lesinle/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/lesinle/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>bestbuk.pl</div></td></tr><tr><td><div>35.173.69.207</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>conrad-liveweb7</div></td></tr><tr><td><div>localhost</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.6-stable+timestamp.2016.05.10.00.21.47</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_https</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_local</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_restful</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_scheduler</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_shell</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">now</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2018, 9, 1, 20, 30, 48, 941439)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">url</td><td style="vertical-align:top;">:</td><td><div>/hello</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">utcnow</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2018, 9, 1, 20, 30, 48, 941453)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi</td><td style="vertical-align:top;">:</td><td><div>&lt;gluon.main.LazyWSGI object at 0x7f2c84365510&gt;</div></td></tr></table></div>'
+tRp60
+sS'frames'
+p61
+(lp62
+(dp63
+S'file'
+p64
+S'/home/lesinle/web2py/gluon/restricted.py'
+p65
+sS'dump'
+p66
+(dp67
+S'environment'
+p68
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'AppConfig': <function AppConfig>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, ...}"
+p69
+sS'ccode'
+p70
+S'<code object <module> at 0x7f2c7fd8d730, file "/...tions/bestbukpl/controllers/default.py", line 10>'
+p71
+ssS'lnum'
+p72
+I227
+sS'lines'
+p73
+(dp74
+I224
+S'            ccode = code'
+p75
+sI225
+S'        else:'
+p76
+sI226
+S'            ccode = compile2(code, layer)'
+p77
+sI227
+S'        exec ccode in environment'
+p78
+sI228
+S'    except HTTP:'
+p79
+sI229
+S'        raise'
+p80
+sI230
+S'    except RestrictedError:'
+p81
+sI231
+S'        # do not encapsulate (obfuscate) the original RestrictedError'
+p82
+sI222
+S'    try:'
+p83
+sI223
+S'        if isinstance(code, types.CodeType):'
+p84
+ssS'call'
+p85
+S"(code='# -*- coding: utf-8 -*-\\n# this file is released ...ession.m\\n\\nresponse._vars=response._caller(hello)\\n', environment={'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'AppConfig': <function AppConfig>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, ...}, layer='/home/lesinle/web2py/applications/bestbukpl/controllers/default.py')"
+p86
+sS'func'
+p87
+S'restricted'
+p88
+sa(dp89
+g64
+S'/home/lesinle/web2py/applications/bestbukpl/controllers/default.py'
+p90
+sg66
+(dp91
+sg72
+I175
+sg73
+(dp92
+I164
+S'    typ=request.vars.typ'
+p93
+sI165
+S'    if typ is None:'
+p94
+sI166
+S"        typ='mecz'"
+p95
+sI167
+S'    return locals()'
+p96
+sI168
+S''
+sI169
+S'def data():'
+p97
+sI170
+S'    if not session.m or len(session.m)==10: session.m=[]'
+p98
+sI171
+S'    if request.vars.q: session.m.append(request.vars.q)'
+p99
+sI172
+S'    session.m.sort()'
+p100
+sI173
+S'    return session.m'
+p101
+ssg85
+S'()'
+p102
+sg87
+S'<module>'
+p103
+sa(dp104
+g64
+S'/home/lesinle/web2py/gluon/globals.py'
+p105
+sg66
+(dp106
+S'self'
+p107
+S'undefined'
+p108
+sS'f'
+S'<function hello>'
+p109
+ssg72
+I417
+sg73
+(dp110
+I416
+S'        self._vars = None'
+p111
+sI417
+S'        self._caller = lambda f: f()'
+p112
+sI418
+S'        self._view_environment = None'
+p113
+sI419
+S'        self._custom_commit = None'
+p114
+sI420
+S'        self._custom_rollback = None'
+p115
+sI421
+S"        self.generic_patterns = ['*']"
+p116
+sI412
+S"        self.flash = ''            # used by the default view layout"
+p117
+sI413
+S'        self.meta = Storage()      # used by web2py_ajax.html'
+p118
+sI414
+S'        self.menu = []             # used by the default view layout'
+p119
+sI415
+S'        self.files = []            # used by web2py_ajax.html'
+p120
+ssg85
+S'(f=<function hello>)'
+p121
+sg87
+S'<lambda>'
+p122
+sa(dp123
+g64
+S'/home/lesinle/web2py/applications/bestbukpl/controllers/default.py'
+p124
+sg66
+(dp125
+S'check_id'
+p126
+S'None'
+p127
+sS'x'
+g108
+sS'subprocess.check_output'
+p128
+S'<function check_output>'
+p129
+sS'global subprocess'
+p130
+S"<module 'subprocess' from '/usr/lib/python2.7/subprocess.pyc'>"
+p131
+ssg72
+I20
+sg73
+(dp132
+I15
+S'def hello():'
+p133
+sI16
+S'    #rows=s.select()'
+p134
+sI17
+S'    #rows=s.select()'
+p135
+sI18
+S'    check_id=request.vars.c_id'
+p136
+sI19
+S"    #x=subprocess.call(['python3', '/home/lesinle/odds/read_coupon_fortuna_wo_sql.py',check_id])"
+p137
+sI20
+S"    x=subprocess.check_output(['python3','/home/lesinle/odds/read_coupon_fortuna_wo_sql.py',check_id])"
+p138
+sI21
+S"    y1=re.sub('\\[','',x)"
+p139
+sI22
+S"    y2=re.sub(']','',y1)"
+p140
+sI23
+S'    y=y2.split("\'")'
+p141
+sI24
+S'    #print (y'
+p142
+ssg85
+S'()'
+p143
+sg87
+S'hello'
+p144
+sa(dp145
+g64
+S'/usr/lib/python2.7/subprocess.py'
+p146
+sg66
+(dp147
+S'stdout'
+p148
+g108
+sS'process'
+p149
+g108
+sS'global PIPE'
+p150
+S'-1'
+p151
+sS'kwargs'
+p152
+S'{}'
+p153
+sS'global Popen'
+p154
+S"<class 'subprocess.Popen'>"
+p155
+sS'popenargs'
+p156
+S"(['python3', '/home/lesinle/odds/read_coupon_fortuna_wo_sql.py', None],)"
+p157
+ssg72
+I566
+sg73
+(dp158
+I561
+S'    ...              stderr=STDOUT)'
+p159
+sI562
+S"    'ls: non_existent_file: No such file or directory\\n'"
+p160
+sI563
+S'    """'
+p161
+sI564
+S"    if 'stdout' in kwargs:"
+p162
+sI565
+S"        raise ValueError('stdout argument not allowed, it will be overridden.')"
+p163
+sI566
+S'    process = Popen(stdout=PIPE, *popenargs, **kwargs)'
+p164
+sI567
+S'    output, unused_err = process.communicate()'
+p165
+sI568
+S'    retcode = process.poll()'
+p166
+sI569
+S'    if retcode:'
+p167
+sI570
+S'        cmd = kwargs.get("args")'
+p168
+ssg85
+S"(*popenargs=(['python3', '/home/lesinle/odds/read_coupon_fortuna_wo_sql.py', None],), **kwargs={})"
+p169
+sg87
+S'check_output'
+p170
+sa(dp171
+g64
+S'/usr/lib/python2.7/subprocess.py'
+p172
+sg66
+(dp173
+S'errwrite'
+p174
+S'None'
+p175
+sS'errread'
+p176
+S'None'
+p177
+ssg72
+I710
+sg73
+(dp178
+I705
+S'            self._execute_child(args, executable, preexec_fn, close_fds,'
+p179
+sI706
+S'                                cwd, env, universal_newlines,'
+p180
+sI707
+S'                                startupinfo, creationflags, shell, to_close,'
+p181
+sI708
+S'                                p2cread, p2cwrite,'
+p182
+sI709
+S'                                c2pread, c2pwrite,'
+p183
+sI710
+S'                                errread, errwrite)'
+p184
+sI711
+S'        except Exception:'
+p185
+sI712
+S'            # Preserve original exception in case os.close raises.'
+p186
+sI713
+S'            exc_type, exc_value, exc_trace = sys.exc_info()'
+p187
+sI714
+S''
+ssg85
+S"(self=<subprocess.Popen object>, args=['python3', '/home/lesinle/odds/read_coupon_fortuna_wo_sql.py', None], bufsize=0, executable=None, stdin=None, stdout=-1, stderr=None, preexec_fn=None, close_fds=False, shell=False, cwd=None, env=None, universal_newlines=False, startupinfo=None, creationflags=0)"
+p188
+sg87
+g22
+sa(dp189
+g64
+S'/usr/lib/python2.7/subprocess.py'
+p190
+sg66
+(dp191
+S'child_exception'
+p192
+S"TypeError('execv() arg 2 must contain only strings',)"
+p193
+ssg72
+I1327
+sg73
+(dp194
+I1322
+S'                    _eintr_retry_call(os.waitpid, self.pid, 0)'
+p195
+sI1323
+S'                except OSError as e:'
+p196
+sI1324
+S'                    if e.errno != errno.ECHILD:'
+p197
+sI1325
+S'                        raise'
+p198
+sI1326
+S'                child_exception = pickle.loads(data)'
+p199
+sI1327
+S'                raise child_exception'
+p200
+sI1328
+S''
+sI1329
+S''
+sI1330
+S'        def _handle_exitstatus(self, sts, _WIFSIGNALED=os.WIFSIGNALED,'
+p201
+sI1331
+S'                _WTERMSIG=os.WTERMSIG, _WIFEXITED=os.WIFEXITED,'
+p202
+ssg85
+S"(self=<subprocess.Popen object>, args=['python3', '/home/lesinle/odds/read_coupon_fortuna_wo_sql.py', None], executable='python3', preexec_fn=None, close_fds=False, cwd=None, env=None, universal_newlines=False, startupinfo=None, creationflags=0, shell=False, to_close=set([25]), p2cread=None, p2cwrite=None, c2pread=25, c2pwrite=26, errread=None, errwrite=None)"
+p203
+sg87
+S'_execute_child'
+p204
+sasS'pyver'
+p205
+S'Python 2.7.6: /usr/local/bin/uwsgi (prefix: /usr)'
+p206
+sS'session'
+p207
+g59
+(S's\xb6\x02\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">games</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">123</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">away</td><td style="vertical-align:top;">:</td><td><div>Hoffe</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">home</td><td style="vertical-align:top;">:</td><td><div>Bayern M</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">typ</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr></table></div></td></tr></table></div></td></tr></table></div>'
+tRp208
+sS'etype'
+p209
+S"<type 'exceptions.TypeError'>"
+p210
+sS'date'
+p211
+S'Sat Sep  1 20:30:49 2018'
+p212
+sS'response'
+p213
+g59
+(S's\xf8>\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">body</td><td style="vertical-align:top;">:</td><td><div>&lt;cStringIO.StringO object at 0x7f2c845bac38&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_bestbukpl</td><td style="vertical-align:top;">:</td><td><div>94.254.165.107-810dd009-a2c3-49fd-8f2e-b9a05c352420<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">delimiters</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">files</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">form_label_separator</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">formstyle</td><td style="vertical-align:top;">:</td><td><div>bootstrap3_inline</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generic_patterns</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">google_analytics_id</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">headers</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">X-Powered-By</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">logo</td><td style="vertical-align:top;">:</td><td><div><a class="navbar-brand" href="http://www.web2py.com/" id="web2py-logo"><b>web<span>2</span>py</b>&trade;&nbsp;</a></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">menu</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div><table><tr><td><div>Home</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>My Sites</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/site</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>This App</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Design</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/design/bestbukpl</div></td></tr></table></div></td></tr><tr><td><div><li class="divider"></li></div></td></tr><tr><td><div><table><tr><td><div>Controller</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/edit/bestbukpl/controllers/default.py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>View</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/edit/bestbukpl/views/default/hello.html</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>DB Model</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/edit/bestbukpl/models/db.py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Menu Model</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/edit/bestbukpl/models/menu.py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Config.ini</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/edit/bestbukpl/private/appconfig.ini</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Layout</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/edit/bestbukpl/views/layout.html</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Stylesheet</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/edit/bestbukpl/static/css/web2py-bootstrap3.css</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Database</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/appadmin</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Errors</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/errors/bestbukpl</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>About</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/about/bestbukpl</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>web2py.com</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Download</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/download</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Support</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/support</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Demo</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/demo_admin</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Quick Examples</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/examples/default/examples</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>FAQ</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/AlterEgo</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Videos</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/videos/</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Free Applications</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/appliances</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Plugins</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/plugins</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Recipes</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2pyslices.com/</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Documentation</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Online book</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book</div></td></tr></table></div></td></tr><tr><td><div><li class="divider"></li></div></td></tr><tr><td><div><table><tr><td><div>Preface</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/00</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Introduction</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/01</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Python</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/02</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Overview</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/03</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>The Core</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/04</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>The Views</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/05</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Database</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/06</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Forms and Validators</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/07</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Email and SMS</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/08</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Access Control</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/09</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Services</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/10</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Ajax Recipes</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/11</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Components and Plugins</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/12</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Deployment Recipes</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/13</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Other Recipes</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/14</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Helping web2py</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/15</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Buy web2py\'s book</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://stores.lulu.com/web2py</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Community</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>None</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Groups</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/usergroups</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Twitter</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://twitter.com/web2py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Live Chat</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://webchat.freenode.net/?channels=web2py</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">meta</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">author</td><td style="vertical-align:top;">:</td><td><div>Your Name &lt;you@example.com&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">description</td><td style="vertical-align:top;">:</td><td><div>a cool new app</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generator</td><td style="vertical-align:top;">:</td><td><div>Web2py Web Framework</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">keywords</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>web2py</div></td></tr><tr><td><div>python</div></td></tr><tr><td><div>framework</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">models_to_run</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^default/\\w+\\.py$</div></td></tr><tr><td><div>^default/hello/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">postprocessing</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_client</td><td style="vertical-align:top;">:</td><td><div>94.254.165.107</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_compression_level</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_expires</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_data_name</td><td style="vertical-align:top;">:</td><td><div>session_data_bestbukpl</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_file</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;/home/lesinle/web2py/applications/bestbukpl/sessions/07a/129/94.254.165.107-810dd009-a2c3-49fd-8f2e-b9a05c352420&#x27;, mode &#x27;rb+&#x27; at 0x7f2c857745d0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_filename</td><td style="vertical-align:top;">:</td><td><div>/home/lesinle/web2py/applications/bestbukpl/sessions/94.254.165.107-810dd009-a2c3-49fd-8f2e-b9a05c352420</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_hash</td><td style="vertical-align:top;">:</td><td><div>528bffefd57121c0c9db55ce121ccec8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id</td><td style="vertical-align:top;">:</td><td><div>94.254.165.107-810dd009-a2c3-49fd-8f2e-b9a05c352420</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_name</td><td style="vertical-align:top;">:</td><td><div>session_id_bestbukpl</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_locked</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_masterapp</td><td style="vertical-align:top;">:</td><td><div>bestbukpl</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_new</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_storage_type</td><td style="vertical-align:top;">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">status</td><td style="vertical-align:top;">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">subtitle</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">title</td><td style="vertical-align:top;">:</td><td><div>Bestbukpl</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">view</td><td style="vertical-align:top;">:</td><td><div>default/hello.html</div></td></tr></table></div>'
+tRp214
+sS'locals'
+p215
+(dp216
+S'errread'
+p217
+S'None'
+p218
+sS'c2pread'
+p219
+S'25'
+p220
+sS'gc_was_enabled'
+p221
+S'True'
+p222
+sS'errwrite'
+p223
+S'None'
+p224
+sS'shell'
+p225
+S'False'
+p226
+sS'errpipe_write'
+p227
+S'28'
+p228
+sS'to_close'
+p229
+S'set([25])'
+p230
+sS'close_fds'
+p231
+g226
+sS'self'
+p232
+S'<subprocess.Popen object>'
+p233
+sS'env'
+p234
+S'None'
+p235
+sS'cwd'
+p236
+S'None'
+p237
+sS'child_exception'
+p238
+S"TypeError('execv() arg 2 must contain only strings',)"
+p239
+sg44
+S"['python3', '/home/lesinle/odds/read_coupon_fortuna_wo_sql.py', None]"
+p240
+sS'executable'
+p241
+S"'python3'"
+p242
+sS'c2pwrite'
+p243
+S'26'
+p244
+sS'data'
+p245
+S'"cexceptions\\nTypeError\\np0\\n(S\'execv() arg 2 must c...execv() arg 2 must contain only strings\\\\n\'\\np6\\nsb."'
+p246
+sS'creationflags'
+p247
+S'0'
+sS'errpipe_read'
+p248
+S'27'
+p249
+sS'preexec_fn'
+p250
+S'None'
+p251
+sS'p2cread'
+p252
+S'None'
+p253
+sS'startupinfo'
+p254
+S'None'
+p255
+sS'p2cwrite'
+p256
+S'None'
+p257
+sS'_close_in_parent'
+p258
+S'<function _close_in_parent>'
+p259
+sS'universal_newlines'
+p260
+g226
+sssS'traceback'
+p261
+S'Traceback (most recent call last):\n  File "/home/lesinle/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/lesinle/web2py/applications/bestbukpl/controllers/default.py", line 175, in <module>\n  File "/home/lesinle/web2py/gluon/globals.py", line 417, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/lesinle/web2py/applications/bestbukpl/controllers/default.py", line 20, in hello\n    x=subprocess.check_output([\'python3\',\'/home/lesinle/odds/read_coupon_fortuna_wo_sql.py\',check_id])\n  File "/usr/lib/python2.7/subprocess.py", line 566, in check_output\n    process = Popen(stdout=PIPE, *popenargs, **kwargs)\n  File "/usr/lib/python2.7/subprocess.py", line 710, in __init__\n    errread, errwrite)\n  File "/usr/lib/python2.7/subprocess.py", line 1327, in _execute_child\n    raise child_exception\nTypeError: execv() arg 2 must contain only strings\n'
+p262
+s.

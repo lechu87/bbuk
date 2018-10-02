@@ -1,0 +1,11 @@
+{{extend 'layout.html'}}
+<table>
+    <tr>
+        <td>Bayern</td>
+        <td name='kurs' onclick="ajax('{{=URL('proby', 'echo')}}', ['kurs'], ':eval')" >2.5</td>
+    </tr>
+</table>
+<form>
+   <input name="name" onkeyup="ajax('{{=URL('proby', 'echo')}}', ['name'], ':eval')" />
+</form>
+<div id="target">ten napis</div>

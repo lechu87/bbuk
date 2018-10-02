@@ -1,0 +1,25 @@
+{{extend 'layout.html'}}
+<h1>
+    Wklej link do kuponu:
+</h1>
+<form action="{{=URL('test')}}">
+  <input name="c_id" />
+  <input type="submit" />
+</form>
+
+
+<h1>To jest szablon read_coupon/test.html</h1>
+{{=BEAUTIFY(response._vars)}}
+{{=wynik}}
+<h2>
+    {{=len(wynik['db_fortuna'][0])}}
+    
+</h2>
+<h3>
+    {{=bookies}}
+</h3>
+<h2>
+    Przykładowy mecz:
+    {{=wynik['db_fortuna'][0][0]}}
+</h2>
+{{pass}}
